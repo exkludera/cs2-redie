@@ -1,4 +1,4 @@
-﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
@@ -54,7 +54,6 @@ public class Redie : BasePlugin
         {
             player.Respawn();
             player.RemoveWeapons();
-            player.SetListenOverride(player, ListenOverride.Mute);
             player.PlayerPawn.Value.Render = Color.FromArgb(0, 255, 255, 255);
             player.PlayerPawn.Value.SetModel("characters\\models\\ctm_heavy\\ctm_heavy.vmdl");
             AddTimer(1.0f, () => {
@@ -69,9 +68,7 @@ public class Redie : BasePlugin
     [GameEventHandler]
     public HookResult OnPlayerSpawn(EventPlayerSpawn @event, GameEventInfo info)
     {
-        AddTimer(1.0f, () => {
-            @event.Userid.Pawn.Value.Render = Color.FromArgb(255, 255, 255, 255);
-        });
+        @event.Userid.Pawn.Value.Render = Color.FromArgb(255, 255, 255, 255);
         return HookResult.Continue;
     }
     #endregion
