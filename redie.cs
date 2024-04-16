@@ -5,8 +5,8 @@ using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
-using System.Drawing;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
+using System.Drawing;
 
 namespace Redie;
 
@@ -61,12 +61,14 @@ public class Redie : BasePlugin
             RedieCheck.Add(player.SteamID);
             player.Respawn();
             player.RemoveWeapons();
-            player.PlayerPawn.Value.Health = 420; // sets hp to block weapons and some triggers
+            player.PlayerPawn.Value.Health = 420; // sets hp to match block weapons and some triggers
             player.PlayerPawn.Value.Render = Color.FromArgb(0, 255, 255, 255); // hides player 
             player.PlayerPawn.Value.SetModel("characters\\models\\ctm_heavy\\ctm_heavy.vmdl"); // floating gloves fix
             player.PlayerPawn.Value.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING; //noblock fix
             player.PlayerPawn.Value.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING; //noblock fix
             AddTimer(1.0f, () => {
+                player.PlayerPawn.Value.Render = Color.FromArgb(0, 255, 255, 255);
+                player.PlayerPawn.Value.SetModel("characters\\models\\ctm_heavy\\ctm_heavy.vmdl");
                 player.PlayerPawn.Value.LifeState = (byte)LifeState_t.LIFE_DYING; //timer on this to fix black screen
             });
         }
