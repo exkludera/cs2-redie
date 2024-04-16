@@ -1,5 +1,7 @@
 # cssharp-redie
 
+## redie / ghost plugin
+
 ### 
 /redie css_redie
 
@@ -20,5 +22,7 @@ this plugin is bad and should probably not be used💀
 >[ManifestManah/NoBlock](https://github.com/ManifestManah/NoBlock)
 >
 >[roflmuffin/CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp)
+>
+>[ [CS:GO][Surf] Redie by Pyro_](https://forums.alliedmods.net/showthread.php?p=2198357)
 >
 >@schwarper from cssharp discord for dynamic hooking
