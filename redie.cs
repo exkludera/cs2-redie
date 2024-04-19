@@ -14,7 +14,7 @@ namespace RediePlugin;
 public class RediePlugin : BasePlugin
 {
     public override string ModuleName => "redie";
-    public override string ModuleVersion => "1.1.3";
+    public override string ModuleVersion => "1.1.2";
     public override string ModuleAuthor => "exkludera";
     public override string ModuleDescription => "";
 
