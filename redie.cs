@@ -14,7 +14,7 @@ namespace RediePlugin;
 public class RediePlugin : BasePlugin
 {
     public override string ModuleName => "redie";
-    public override string ModuleVersion => "1.1.2";
+    public override string ModuleVersion => "1.1.3";
     public override string ModuleAuthor => "exkludera";
     public override string ModuleDescription => "";
 
@@ -60,7 +60,7 @@ public class RediePlugin : BasePlugin
             player.Respawn();
             player.RemoveWeapons();
             player.PlayerPawn.Value.HideHUD = 1;
-            player.PlayerPawn.Value.HideTargetID = true;
+            //player.PlayerPawn.Value.HideTargetID = true; no longer working in v215
             player.PlayerPawn.Value.Health = 420; // sets hp to match block weapons and some triggers
             player.PlayerPawn.Value.Render = Color.FromArgb(0, 255, 255, 255); // hides player
             player.PlayerPawn.Value.SetModel("characters\\models\\ctm_heavy\\ctm_heavy.vmdl"); // floating gloves fix
