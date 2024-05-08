@@ -1,5 +1,4 @@
-using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Core.Attributes;
+﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -10,13 +9,11 @@ using System.Drawing;
 
 namespace RediePlugin;
 
-[MinimumApiVersion(80)]
 public class RediePlugin : BasePlugin
 {
     public override string ModuleName => "redie";
-    public override string ModuleVersion => "1.1.3";
+    public override string ModuleVersion => "1.1.4";
     public override string ModuleAuthor => "exkludera";
-    public override string ModuleDescription => "";
 
     HashSet<int?> Redie = new HashSet<int?>();
 
@@ -25,7 +22,7 @@ public class RediePlugin : BasePlugin
     {
         VirtualFunctions.CBaseTrigger_StartTouchFunc.Hook((DynamicHook hook) =>
         {
-            CBaseTrigger player = hook.GetParam<CBaseTrigger>(1);
+            CBaseTrigger player = hook.GetParam<CBaseTrigger>(0);
             if (player.Health == 420) {
                 hook.SetReturn(false);
                 return HookResult.Handled;
@@ -68,10 +65,10 @@ public class RediePlugin : BasePlugin
             player.PlayerPawn.Value.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING; //noblock fix
  
             //fix for custom player models
-            AddTimer(1.0f, () => {
+            AddTimer(0f, () => {
                 player.PlayerPawn.Value.Render = Color.FromArgb(0, 255, 255, 255);
                 player.PlayerPawn.Value.SetModel("characters\\models\\ctm_heavy\\ctm_heavy.vmdl");
-                AddTimer(1.0f, () => {
+                AddTimer(0f, () => {
                     player.PlayerPawn.Value.LifeState = (byte)LifeState_t.LIFE_DYING;
                 });
             });
@@ -119,7 +116,7 @@ public class RediePlugin : BasePlugin
 
     private bool blockCheck(CCSPlayerController? player)
     {
-        if (player == null || player.PawnIsAlive || player.Team == CsTeam.Spectator || player.Team == CsTeam.None)
+        if (player == null || !player.IsValid || player.PawnIsAlive || player.Team == CsTeam.Spectator || player.Team == CsTeam.None)
             return true;
         return false;
     }
