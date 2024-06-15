@@ -7,29 +7,18 @@ using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using System.Drawing;
 
-namespace RediePlugin;
+namespace Redie;
 
-public class RediePlugin : BasePlugin
+public class Redie : BasePlugin
 {
     public override string ModuleName => "redie";
-    public override string ModuleVersion => "1.1.4";
+    public override string ModuleVersion => "1.1.5";
     public override string ModuleAuthor => "exkludera";
 
-    HashSet<int?> Redie = new HashSet<int?>();
+    HashSet<ulong?> RediePlayers = new HashSet<ulong?>();
 
-    #region load
     public override void Load(bool hotReload)
     {
-        VirtualFunctions.CBaseTrigger_StartTouchFunc.Hook((DynamicHook hook) =>
-        {
-            CBaseTrigger player = hook.GetParam<CBaseTrigger>(0);
-            if (player.Health == 420) {
-                hook.SetReturn(false);
-                return HookResult.Handled;
-            }
-            return HookResult.Continue;
-        },HookMode.Pre);
-
         VirtualFunctions.CCSPlayer_WeaponServices_CanUseFunc.Hook((DynamicHook hook) =>
         {
             CCSPlayer_WeaponServices player = hook.GetParam<CCSPlayer_WeaponServices>(0);
@@ -41,7 +30,6 @@ public class RediePlugin : BasePlugin
             return HookResult.Continue;
         },HookMode.Pre);
     }
-    #endregion
 
     #region commands
     [ConsoleCommand("css_redie", "redie command")]
@@ -51,25 +39,27 @@ public class RediePlugin : BasePlugin
         if (blockCheck(player))
             return;
 
-        if (!Redie.Contains(player.UserId))
+        var playerValue = player!.PlayerPawn.Value!;
+
+        if (!RediePlayers.Contains(player!.SteamID))
         {
-            Redie.Add(player.UserId);
+            RediePlayers.Add(player.SteamID);
             player.Respawn();
             player.RemoveWeapons();
-            player.PlayerPawn.Value.HideHUD = 1;
-            //player.PlayerPawn.Value.HideTargetID = true; no longer working in v215
-            player.PlayerPawn.Value.Health = 420; // sets hp to match block weapons and some triggers
-            player.PlayerPawn.Value.Render = Color.FromArgb(0, 255, 255, 255); // hides player
-            player.PlayerPawn.Value.SetModel("characters\\models\\ctm_heavy\\ctm_heavy.vmdl"); // floating gloves fix
-            player.PlayerPawn.Value.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING; //noblock fix
-            player.PlayerPawn.Value.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING; //noblock fix
+            playerValue.HideHUD = 1;
+            //playerValue.HideTargetID = true; no longer working in v215
+            playerValue.Health = 420; // sets hp to match block weapons and some triggers
+            playerValue.Render = Color.FromArgb(0, 255, 255, 255); // hides player
+            playerValue.SetModel("characters\\models\\ctm_heavy\\ctm_heavy.vmdl"); // floating gloves fix
+            playerValue.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING; //noblock fix
+            playerValue.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING; //noblock fix
  
             //fix for custom player models
             AddTimer(0f, () => {
-                player.PlayerPawn.Value.Render = Color.FromArgb(0, 255, 255, 255);
-                player.PlayerPawn.Value.SetModel("characters\\models\\ctm_heavy\\ctm_heavy.vmdl");
+                playerValue.Render = Color.FromArgb(0, 255, 255, 255);
+                playerValue.SetModel("characters\\models\\ctm_heavy\\ctm_heavy.vmdl");
                 AddTimer(0f, () => {
-                    player.PlayerPawn.Value.LifeState = (byte)LifeState_t.LIFE_DYING;
+                    playerValue.LifeState = (byte)LifeState_t.LIFE_DYING;
                 });
             });
         }
@@ -82,10 +72,10 @@ public class RediePlugin : BasePlugin
         if (blockCheck(player))
             return;
 
-        if (Redie.Contains(player.UserId))
+        if (RediePlayers.Contains(player!.SteamID))
         {
-            Redie.Remove(player.UserId);
-            player.PlayerPawn.Value.LifeState = (byte)LifeState_t.LIFE_ALIVE;
+            RediePlayers.Remove(player.SteamID);
+            player.PlayerPawn.Value!.LifeState = (byte)LifeState_t.LIFE_ALIVE;
             player.CommitSuicide(false, true);
         }
     }
@@ -95,21 +85,28 @@ public class RediePlugin : BasePlugin
     [GameEventHandler]
     public HookResult PlayerSpawn(EventPlayerSpawn @event, GameEventInfo info)
     {
-        if (Redie.Contains(@event.Userid.UserId))
-            @event.Userid.PlayerPawn.Value.Render = Color.FromArgb(255, 255, 255, 255); // unhides player
+        var player = @event.Userid!;
+
+        if (RediePlayers.Contains(player.SteamID))
+            player.PlayerPawn.Value!.Render = Color.FromArgb(255, 255, 255, 255); // unhides player
+
         return HookResult.Continue;
     }
     [GameEventHandler]
     public HookResult RoundStart(EventRoundStart @event, GameEventInfo info)
     {
-        Redie.Clear();
+        RediePlayers.Clear();
+
         return HookResult.Continue;
     }
     [GameEventHandler]
     public HookResult TeamChange(EventPlayerTeam @event, GameEventInfo info)
     {
-        if (Redie.Contains(@event.Userid.UserId))
-            Redie.Remove(@event.Userid.UserId);
+        var player = @event.Userid!;
+
+        if (RediePlayers.Contains(player.SteamID))
+            RediePlayers.Remove(player.SteamID);
+
         return HookResult.Continue;
     }
     #endregion
@@ -118,6 +115,7 @@ public class RediePlugin : BasePlugin
     {
         if (player == null || !player.IsValid || player.PawnIsAlive || player.Team == CsTeam.Spectator || player.Team == CsTeam.None)
             return true;
+
         return false;
     }
 
