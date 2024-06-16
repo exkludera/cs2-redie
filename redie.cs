@@ -12,7 +12,7 @@ namespace Redie;
 public class Redie : BasePlugin
 {
     public override string ModuleName => "redie";
-    public override string ModuleVersion => "1.1.5";
+    public override string ModuleVersion => "0.0.6";
     public override string ModuleAuthor => "exkludera";
 
     HashSet<ulong?> RediePlayers = new HashSet<ulong?>();
