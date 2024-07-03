@@ -1,4 +1,4 @@
-# cssharp-redie
+# cs2-redie
 
 ## CS2 redie / ghost plugin
 
