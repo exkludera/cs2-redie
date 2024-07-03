@@ -1,6 +1,6 @@
 # cs2-redie
 
-## CS2 redie / ghost plugin
+## redie / ghost plugin
 
 ### 
 /redie css_redie
