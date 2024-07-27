@@ -1,12 +1,21 @@
 # cs2-redie
+**a plugin that allows players to go in Redie/Ghost mode**
 
-## redie / ghost plugin
+<br>
 
-### 
-/redie css_redie
+## information:
 
-/unredie css_unredie
-<br></br>
+### requirements
+- [MetaMod](https://cs2.poggu.me/metamod/installation)
+- [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp)
+
+### commands
+`css_redie` / `css_ghost`
+
+`css_unredie` / `css_unghost`
+
+<br>
+
 > [!CAUTION]
 >player in redie still makes walking/jumping sounds (would be nice if anyone knows how to fix that)
 > 
@@ -16,12 +25,11 @@
 
 this plugin is bad and should probably not be used💀
 
-<br></br>
-***credits:***
+<br>
+
+**credits:**
 
 >[ManifestManah/NoBlock](https://github.com/ManifestManah/NoBlock)
->
->[roflmuffin/CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp)
 >
 >[ [CS:GO][Surf] Redie by Pyro_](https://forums.alliedmods.net/showthread.php?p=2198357)
 >
