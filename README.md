@@ -34,3 +34,5 @@ this plugin is bad and should probably not be used💀
 >[ [CS:GO][Surf] Redie by Pyro_](https://forums.alliedmods.net/showthread.php?p=2198357)
 >
 >@schwarper from cssharp discord for dynamic hooking
+
+<br> <a href='https://ko-fi.com/exkludera' target='_blank'><img src='https://cdn.ko-fi.com/cdn/kofi5.png' height='48px' alt='Buy Me a Coffee at ko-fi.com' /></a>
