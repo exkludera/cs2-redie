@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redie", "Redie.csproj", "{B9D14C49-1D62-4530-81A5-7B5CB62419BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redie", "src\Redie.csproj", "{FDA2D60A-9C1D-4924-842B-696A42C1059D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B9D14C49-1D62-4530-81A5-7B5CB62419BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9D14C49-1D62-4530-81A5-7B5CB62419BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9D14C49-1D62-4530-81A5-7B5CB62419BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9D14C49-1D62-4530-81A5-7B5CB62419BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDA2D60A-9C1D-4924-842B-696A42C1059D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDA2D60A-9C1D-4924-842B-696A42C1059D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDA2D60A-9C1D-4924-842B-696A42C1059D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDA2D60A-9C1D-4924-842B-696A42C1059D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
