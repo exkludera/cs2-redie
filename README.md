@@ -26,7 +26,7 @@ this plugin is bad and should probably not be used💀
 
 >[ManifestManah/NoBlock](https://github.com/ManifestManah/NoBlock)
 >
-> inspired by [CS:GO][Surf] Redie by Pyro_](https://forums.alliedmods.net/showthread.php?p=2198357)
+> inspired by [[CS:GO][Surf] Redie by Pyro_](https://forums.alliedmods.net/showthread.php?p=2198357)
 
 <img src="https://github.com/user-attachments/assets/53e486cc-8da4-45ab-bc6e-eb38145aba36" height="200px"> <br>
 
