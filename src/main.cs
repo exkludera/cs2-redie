@@ -11,7 +11,7 @@ using System.Drawing;
 public class Plugin : BasePlugin, IPluginConfig<Config>
 {
     public override string ModuleName => "Redie";
-    public override string ModuleVersion => "1.0.0";
+    public override string ModuleVersion => "1.0.1";
     public override string ModuleAuthor => "exkludera";
 
     HashSet<int> RediePlayers = new HashSet<int>();
@@ -21,6 +21,11 @@ public class Plugin : BasePlugin, IPluginConfig<Config>
         RegisterEventHandler<EventPlayerSpawn>(EventPlayerSpawn);
         RegisterEventHandler<EventRoundStart>(EventRoundStart);
         RegisterEventHandler<EventPlayerTeam>(EventPlayerTeam);
+
+        HookEntityOutput("trigger_teleport", "OnStartTouch", Disrupting, HookMode.Pre);
+        HookEntityOutput("trigger_hurt", "OnHurtPlayer", Disrupting, HookMode.Pre);
+        HookEntityOutput("func_door", "OnBlockedClosing", Disrupting, HookMode.Pre);
+        HookEntityOutput("func_door", "OnBlockedOpening", Disrupting, HookMode.Pre);
 
         foreach (var cmd in Config.Commands.Split(','))
             AddCommand(cmd, "Redie Command", (player, command) => Command_Redie(player));
@@ -33,6 +38,11 @@ public class Plugin : BasePlugin, IPluginConfig<Config>
         DeregisterEventHandler<EventPlayerSpawn>(EventPlayerSpawn);
         DeregisterEventHandler<EventRoundStart>(EventRoundStart);
         DeregisterEventHandler<EventPlayerTeam>(EventPlayerTeam);
+
+        UnhookEntityOutput("trigger_teleport", "OnStartTouch", Disrupting, HookMode.Pre);
+        UnhookEntityOutput("trigger_hurt", "OnHurtPlayer", Disrupting, HookMode.Pre);
+        UnhookEntityOutput("func_door", "OnBlockedClosing", Disrupting, HookMode.Pre);
+        UnhookEntityOutput("func_door", "OnBlockedOpening", Disrupting, HookMode.Pre);
 
         foreach (var cmd in Config.Commands.Split(','))
             RemoveCommand(cmd, (player, command) => Command_Redie(player));
@@ -132,7 +142,10 @@ public class Plugin : BasePlugin, IPluginConfig<Config>
             return HookResult.Continue;
 
         if (RediePlayers.Contains(player.Slot))
+        {
+            HidePlayer(player, false);
             RediePlayers.Remove(player.Slot);
+        }
 
         return HookResult.Continue;
     }
@@ -147,6 +160,37 @@ public class Plugin : BasePlugin, IPluginConfig<Config>
         {
             hook.SetReturn(false);
             return HookResult.Handled;
+        }
+
+        return HookResult.Continue;
+    }
+
+    HookResult Disrupting(CEntityIOOutput output, string name, CEntityInstance activator, CEntityInstance caller, CVariant value, float delay)
+    {
+        if (Config.SlayOnDisrupting)
+        {
+            if (activator == null || caller == null)
+                return HookResult.Continue;
+
+            if (activator.DesignerName != "player")
+                return HookResult.Continue;
+
+            var player = new CCSPlayerController(new CCSPlayerPawn(activator.Handle).Controller.Value!.Handle);
+
+            if (player == null)
+                return HookResult.Continue;
+
+            if (RediePlayers.Contains(player.Slot))
+            {
+                RediePlayers.Remove(player.Slot);
+                player.PlayerPawn.Value!.LifeState = (byte)LifeState_t.LIFE_ALIVE;
+                player.CommitSuicide(false, true);
+
+                if (Config.Messages)
+                    player.PrintToChat($"{Config.Prefix} {Config.Message_UnRedieDisrupting}");
+
+                return HookResult.Handled;
+            }
         }
 
         return HookResult.Continue;
